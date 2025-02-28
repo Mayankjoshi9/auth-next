@@ -66,99 +66,99 @@ const EditProfile = () => {
     
     <div className="w-full h-full flex justify-center items-center bg-gray-900 text-white overflow-y-auto">
       <Toaster
-        position="top-center"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          className: "",
-          duration: 1000,
-          removeDelay: 1000,
-          style: {
-            background: "#363636",
-            color: "#fff",
-          },
-          success: {
-            duration: 2000,
-            iconTheme: {
-              primary: "green",
-              secondary: "black",
-            },
-          },
-        }}
+      position="top-center"
+      reverseOrder={false}
+      gutter={8}
+      containerClassName=""
+      containerStyle={{}}
+      toastOptions={{
+        className: "",
+        duration: 1000,
+        removeDelay: 1000,
+        style: {
+        background: "#363636",
+        color: "#fff",
+        },
+        success: {
+        duration: 2000,
+        iconTheme: {
+          primary: "green",
+          secondary: "black",
+        },
+        },
+      }}
       />
       <div className="p-6 bg-gray-800 rounded-lg shadow-lg w-96 h-[750px] m-12">
-        <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+      <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
 
-        <label className="block mb-2">Name</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full p-2 mb-4 text-black rounded-md"
-        />
+      <label className="block mb-2">Name</label>
+      <input
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 text-black rounded-md"
+      />
 
-        <label className="block mb-2">Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full p-2 mb-4 text-black rounded-md"
-          disabled
-        />
+      <label className="block mb-2">Email</label>
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 text-black rounded-md"
+        disabled
+      />
 
-        <label className="block mb-2">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          className="w-full p-2 mb-4 text-black rounded-md"
-          disabled
-        />
+      <label className="block mb-2">Username</label>
+      <input
+        type="text"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 text-black rounded-md"
+        disabled
+      />
 
-        <label className="block mb-2">Birthday</label>
-        <input
-          type="date"
-          name="birthday"
-          value={formData.birthday}
-          onChange={handleChange}
-          className="w-full p-2 mb-4 text-black rounded-md"
-        />
+      <label className="block mb-2">Birthday</label>
+      <input
+        type="date"
+        name="birthday"
+        value={formData.birthday}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 text-black rounded-md"
+      />
 
-        <label className="block mb-2">Gender</label>
-        <select
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          className="w-full p-2 mb-4 text-black rounded-md"
+      <label className="block mb-2">Gender</label>
+      <select
+        name="gender"
+        value={formData.gender}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 text-black rounded-md"
+      >
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label className="block mb-2">Description</label>
+      <textarea
+        name="description"
+        value={formData.description}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 text-black rounded-md"
+        rows={3}
+      />
+
+      {token && (
+        <button
+        onClick={handleSave}
+        className="w-full p-2 bg-blue-500 hover:bg-blue-600 rounded-md mb-4"
+        disabled={loading}
         >
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-
-        <label className="block mb-2">Description</label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          className="w-full p-2 mb-4 text-black rounded-md"
-          rows={3}
-        />
-
-        {token && (
-          <button
-            onClick={handleSave}
-            className="w-full p-2 bg-blue-500 hover:bg-blue-600 rounded-md mb-4"
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save Changes"}
-          </button>
-        )}
+        {loading ? "Saving..." : "Save Changes"}
+        </button>
+      )}
       </div>
     </div>
   );

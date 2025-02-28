@@ -1,21 +1,21 @@
 "use client";
 import axios from "axios";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { setToken, setUser } from "@/reducer/Slices/authSlice";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
-  const [username, setusername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const router=useRouter();
-  const dispatch=useDispatch();
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL as string;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
     if (!username || !password) {
@@ -24,24 +24,22 @@ const Login = () => {
     }
     setLoading(true);
     try {
-      const response=await axios({
-        method: 'post',
-        url: `${apiUrl}/api/v1/auth/login`,
-        data: {
-          username: username,
-          password: password
+      const response = await axios.post<{ user: { id: string; name: string; email: string }; token: string }>(
+        `${apiUrl}/api/v1/auth/login`,
+        {
+          username,
+          password,
         }
-      });
-
+      );
       
       dispatch(setUser(response.data.user));
       dispatch(setToken(response.data.token));
       
-      localStorage.setItem("token",response.data.token);
-      localStorage.setItem("user",JSON.stringify(response.data.user));
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       router.push("/");
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err) && err.response && err.response.status === 401) {
         setError("Invalid username or password.");
       } else {
         setError("Something went wrong. Please try again later.");
@@ -61,9 +59,9 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="flex flex-col">
           <label className="text-gray-300 mb-2">User Name</label>
           <input
-            type="username"
+            type="text"
             value={username}
-            onChange={(e) => setusername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             className="p-3 rounded-md border border-gray-600 bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your username"
           />

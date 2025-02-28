@@ -1,25 +1,23 @@
 "use client";
 import axios from "axios";
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const Signup = () => {
+const Signup: React.FC = () => {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [birthDate, setBirthDate] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-
-  const validate = () => {
-    
-    const missingFields = [];
+  const validate = (): boolean => {
+    const missingFields: string[] = [];
     if (!username) missingFields.push("Username");
     if (!name) missingFields.push("Full Name");
     if (!email) missingFields.push("Email");
@@ -31,50 +29,43 @@ const Signup = () => {
       setErrorMessage(`Missing fields: ${missingFields.join(", ")}`);
       return false;
     }
-    
 
     if (password.length < 6) {
       setErrorMessage("Password must be at least 6 characters.");
       return false;
     }
 
-    if (!/(?=.*[A-Z])(?=.*[\W_])/.test(password)){
-        setErrorMessage("Password must contain at least one uppercase letter and one special character");
-        return false;
+    if (!/(?=.*[A-Z])(?=.*[\W_])/.test(password)) {
+      setErrorMessage("Password must contain at least one uppercase letter and one special character");
+      return false;
     }
-    
-      
-    //  birthday should in past
+
     if (new Date(birthDate) >= new Date()) {
       setErrorMessage("Birth date must be in the past.");
       return false;
     }
 
     setErrorMessage("");
-
     return true;
   };
 
-
-  
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    
+
     if (!validate()) return;
-   
 
     try {
-      const response=await axios({
+      const response = await axios({
         method: 'post',
         url: `${apiUrl}/api/v1/auth/signup`,
         data: {
-          username:username,
-          name:name,
-          email:email,
-          password:password,
-          gender:gender,
-          birthday:birthDate,
-          description:description,
+          username,
+          name,
+          email,
+          password,
+          gender,
+          birthday: birthDate,
+          description,
         }
       });
 
@@ -86,26 +77,23 @@ const Signup = () => {
     }
   };
 
-
-  
   return (
     <div className="w-full flex justify-center items-center bg-gray-900 overflow-y-auto">
-      <div className="w-[90%] max-w-lg px-6 py-2  bg-gray-800 text-white rounded-lg shadow-lg h-full">
+      <div className="w-[90%] max-w-lg px-6 py-2 bg-gray-800 text-white rounded-lg shadow-lg h-full">
         <h1 className="text-xl font-bold text-gray-200 text-center mb-3">Sign Up</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 text-[16px]">
-          {/* Two-Column Layout */}
           <div className="flex gap-2">
             <div className="w-1/2">
               <label className="text-gray-300">Username:</label>
-              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+              <input type="text" value={username} onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
                 className="p-2 w-full rounded-md border border-gray-600 bg-gray-700 text-white"
                 placeholder="Username"
               />
             </div>
             <div className="w-1/2">
               <label className="text-gray-300">Full Name:</label>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)}
+              <input type="text" value={name} onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                 className="p-2 w-full rounded-md border border-gray-600 bg-gray-700 text-white"
                 placeholder="Full Name"
               />
@@ -113,24 +101,24 @@ const Signup = () => {
           </div>
 
           <label className="text-gray-300">Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+          <input type="email" value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             className="p-2 rounded-md border border-gray-600 bg-gray-700 text-white"
             placeholder="Email"
           />
 
           <label className="text-gray-300">Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+          <input type="password" value={password} onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             className="p-2 rounded-md border border-gray-600 bg-gray-700 text-white"
             placeholder="Password"
           />
 
           <label className="text-gray-300">Birth Date:</label>
-          <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)}
+          <input type="date" value={birthDate} onChange={(e: ChangeEvent<HTMLInputElement>) => setBirthDate(e.target.value)}
             className="p-2 rounded-md border border-gray-600 bg-gray-700 text-white"
           />
 
           <label className="text-gray-300">Gender:</label>
-          <select value={gender} onChange={(e) => setGender(e.target.value)}
+          <select value={gender} onChange={(e: ChangeEvent<HTMLSelectElement>) => setGender(e.target.value)}
             className="p-2 rounded-md border border-gray-600 bg-gray-700 text-white"
           >
             <option value="">Select Gender</option>
@@ -140,7 +128,7 @@ const Signup = () => {
           </select>
 
           <label className="text-gray-300">Description (Optional):</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)}
+          <textarea value={description} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
             className="p-2 rounded-md border border-gray-600 bg-gray-700 text-white max-h-[80px] h-[50px]"
             placeholder="Tell us about yourself"
           ></textarea>

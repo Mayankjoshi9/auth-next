@@ -9,7 +9,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
   const token = useSelector((state: RootState) => state.auth.token);
   const user = useSelector((state: RootState) => state.auth.user);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -22,30 +22,27 @@ const NavBar = () => {
     setIsHydrated(true); 
   }, []);
 
-    const handleLogout = async () => {
-      try {
-          await axios(
-             { method:"post",
-              url:`${apiUrl}/api/v1/auth/logout`,
-              headers: {
-                  Authorization: "Bearer " + token,
-              }
-               
-              }
-          );
-          
-          dispatch(logout());
-          router.push("/");
-      } catch (error) {
-          console.log(error);
-      }
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${apiUrl}/api/v1/auth/logout`,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      dispatch(logout());
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-
 
   return (
     <div>
-      <nav className="flex justify-between items-center h-15 pt-3  text-white relative shadow-sm font-mono">
+      <nav className="flex justify-between items-center h-15 pt-3 text-white relative shadow-sm font-mono">
         <Link href="/" className="pl-8">
           Logo
         </Link>
@@ -64,7 +61,7 @@ const NavBar = () => {
           {isHydrated && token && (
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="flex items-center gap-2 p-2  text-white rounded-lg  transition"
+              className="flex items-center gap-2 p-2 text-white rounded-lg transition"
             >
               <FaRegUserCircle size="24" color="blue" />
               {isHydrated && user && <span>{user.name}</span>}
@@ -84,7 +81,7 @@ const NavBar = () => {
           )}
 
           {isHydrated && token && (
-            <button onClick={handleLogout} className=" px-4 cursor-pointer">
+            <button onClick={handleLogout} className="px-4 cursor-pointer">
               <CiLogout className="w-8 h-8 text-red-500" />
             </button>
           )}
