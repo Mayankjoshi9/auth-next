@@ -13,6 +13,8 @@ const EditProfile = () => {
 
   const user = useSelector((state: RootState) => state.auth.user);
   const token = useSelector((state: RootState) => state.auth.token);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -38,7 +40,7 @@ const EditProfile = () => {
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:4000/api/v1/user/profile",
+        url: `${apiUrl}/api/v1/user/profile`,
         data: formData,
         headers: {
           "Content-Type": "application/json",

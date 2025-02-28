@@ -16,6 +16,7 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     setIsHydrated(true); 
@@ -25,7 +26,7 @@ const NavBar = () => {
       try {
           await axios(
              { method:"post",
-              url:"http://localhost:4000/api/v1/auth/logout",
+              url:`${apiUrl}/api/v1/auth/logout`,
               headers: {
                   Authorization: "Bearer " + token,
               }

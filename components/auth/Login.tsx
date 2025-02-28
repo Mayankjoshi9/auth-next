@@ -13,6 +13,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const router=useRouter();
   const dispatch=useDispatch();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ const Login = () => {
     try {
       const response=await axios({
         method: 'post',
-        url: "http://localhost:4000/api/v1/auth/login",
+        url: `${apiUrl}/api/v1/auth/login`,
         data: {
           username: username,
           password: password

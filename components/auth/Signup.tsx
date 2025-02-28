@@ -14,6 +14,7 @@ const Signup = () => {
   const [birthDate, setBirthDate] = useState("");
   const [description, setDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 
   const validate = () => {
@@ -65,7 +66,7 @@ const Signup = () => {
     try {
       const response=await axios({
         method: 'post',
-        url: "http://localhost:4000/api/v1/auth/signup",
+        url: `${apiUrl}/api/v1/auth/signup`,
         data: {
           username:username,
           name:name,
