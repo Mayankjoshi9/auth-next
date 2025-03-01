@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { AxiosError } from "axios";
 
 const Signup: React.FC = () => {
   const router = useRouter();
@@ -71,10 +72,16 @@ const Signup: React.FC = () => {
 
       localStorage.setItem("token", response.data.token);
       router.push("/login");
-    } catch (error) {
-      console.log(error);
-      setErrorMessage("Signup failed. Please try again.");
+    } 
+    catch (error) {
+      if (error instanceof AxiosError) {
+        setErrorMessage(error.response?.data?.message || "An error occurred");
+      } else {
+        setErrorMessage("An unexpected error occurred");
+      }
     }
+    
+    
   };
 
   return (
