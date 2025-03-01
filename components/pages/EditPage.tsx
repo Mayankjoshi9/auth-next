@@ -14,12 +14,11 @@ const EditProfile = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const token = useSelector((state: RootState) => state.auth.token);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
     username: user?.username || "",
-    birthday: user?.birthday.slice(0, 10) || "2009-11-12",
+    birthday: user?.birthday?new Date(user?.birthday).toISOString().slice(0,10) :"",
     gender: user?.gender || "Other",
     description: user?.description || "",
     email: user?.email || "",
