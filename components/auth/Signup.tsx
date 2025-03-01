@@ -15,6 +15,7 @@ const Signup: React.FC = () => {
   const [birthDate, setBirthDate] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const validate = (): boolean => {
@@ -54,6 +55,7 @@ const Signup: React.FC = () => {
     e.preventDefault();
 
     if (!validate()) return;
+    setLoading(true);
 
     try {
       const response = await axios({
@@ -79,6 +81,8 @@ const Signup: React.FC = () => {
       } else {
         setErrorMessage("An unexpected error occurred");
       }
+    }finally {
+      setLoading(false);
     }
     
     
@@ -144,8 +148,11 @@ const Signup: React.FC = () => {
             <p className="text-red-500 text-center text-sm -mb-3">{errorMessage}</p>
           )}
 
-          <button type="submit" className="mt-3 bg-blue-600 hover:bg-blue-700 transition p-2 rounded-md text-white font-semibold">
-            Sign Up
+          <button type="submit" 
+          className="mt-3 bg-blue-600 hover:bg-blue-700 transition p-2 rounded-md text-white font-semibold"
+          disabled={loading}
+          >
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
 
           <p className="mt-2 text-gray-300 text-center">
