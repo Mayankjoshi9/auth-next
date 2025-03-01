@@ -39,14 +39,22 @@ bun install
 ```
 
 3. Set up environment variables:
-
-Create a `.env` file in the root directory and add the following:
+Create a `.env` file in the backend directory and add the following:
 
 ```env
-DATABASE_URL=your_mongodb_connection_string
+DATABASE_URL="mongodb_url"
 PORT=4000
+JWT_SECRET="your_key"
 FRONTEND_URL=http://localhost:3000
+NODE_ENV="development"
 ```
+Create another `.env` file in the root directory and add the following:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000
+
+```
+
 
 ### Running the Development Server
 
