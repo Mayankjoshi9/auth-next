@@ -24,12 +24,13 @@ const Login = () => {
     }
     setLoading(true);
     try {
-      const response = await axios.post<{ user: { id: string; name: string; email: string }; token: string }>(
-        `${apiUrl}/api/v1/auth/login`,
-        {
+      const response = await axios(
+        {method:"post",
+        url:`${apiUrl}/api/v1/auth/login`,
+        data:{
           username,
           password,
-        }
+        }}
       );
       
       dispatch(setUser(response.data.user));
